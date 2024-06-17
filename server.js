@@ -49,4 +49,16 @@ const app = express();
 https.createServer(options, app).listen(port, () => {
   console.log(Server running on https://localhost:${port});
 });
+const mongoose = require('mongoose');
 
+mongoose.connect(mongodbURI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+});
+
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.once('open', () => {
+  console.log('Connected to MongoDB');
+});
